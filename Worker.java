@@ -1,3 +1,9 @@
-public class Worker{
-	
+
+
+public class Worker {
+
+    public Worker() {
+        
+    }
+
 }
