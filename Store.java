@@ -26,7 +26,8 @@ public class Store {
     }
 
     public ArrayList<Resource> load(String location) {
-        //parse file for resource;
+        //parse file for resource
+        
         return null;
     }
 
