@@ -1,4 +1,10 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
 
@@ -6,6 +12,9 @@ public class Store {
     private ArrayList<Resource> offers;
     private ArrayList<Resource> demands;
     private ArrayList<Resource> transactions;
+
+    private static final String DEMMAND = "demmand";
+    private static final String OFFER = "offer";
 
     private String offersLocation, demandsLocation, transactionsLocation;
 
@@ -32,7 +41,7 @@ public class Store {
 
     public void load(String location) {
         //parse file for resource
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(location))) {
             String line;
             while ((line = br.readLine()) != null) {
                 Resource res = parseString(line);
@@ -51,14 +60,31 @@ public class Store {
 
     private Resource parseString(String resourceString) {
         String[] values = resourceString.split(" ");
-        return new Resource(values[0],Integer.valueOf(value[1]),Integer.valueOf(value[2]),value[3],value[4]);
+        return new Resource(values[0],Integer.valueOf(values[1]),Integer.valueOf(values[2]),values[3],values[4]);
     }
 
     public void save() {
-        //cod de 
-        
+        save_resource(offersLocation,offers);
+        save_resource(demandsLocation,demands);
+        save_resource(transactionsLocation,transactions);         
     }
 
-    
+    public void save_resource(String location,ArrayList<Resource> resource) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+            new FileOutputStream(location), "utf-8"))) {
+                for(Resource res : resource) {
+                    writer.write(res.toString());
+                    System.out.println(res);
+                }
+        } catch(IOException ie) {
+            ie.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    public static void main(String args[]) {
+        Store s = new Store("offers.txt","demands.txt","transactions.txt");
+
+    }
     
 }
