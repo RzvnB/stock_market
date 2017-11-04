@@ -16,6 +16,7 @@ import java.io.IOException;
 // import DemandsHistoryTask;
 // import TransactionHistoryTask;
 import java.util.concurrent.Future;
+import java.util.Scanner;
 
 
 
@@ -33,7 +34,7 @@ public class StockMarketServer{
         server.createContext("/echoHeader", new EchoHeaderHandler(compService));
         server.setExecutor(java.util.concurrent.Executors.newCachedThreadPool());
         server.start();
-    }
+    }        
 
 }
 
