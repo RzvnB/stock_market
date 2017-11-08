@@ -6,14 +6,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" stylesheets="/InterfaceStyle.css" fx:id="pane" >
    <children>
-        <HBox>
-            <Button text="Show offers">
+        <HBox fx:id="buttonsBox" spacing="10" >
+        <padding><Insets top="5" right="5" bottom="5" left="5"/></padding>
+            <Button fx:id="btn" text="Show offers">
             </Button> 
-            <Button text="Show demands">
+            <Button  fx:id="btn" text="Show demands">
             </Button>
-            <Button text="Show transactions">
+            <Button  fx:id="btn" text="Show transactions">
             </Button>
         </HBox>
    </children>
