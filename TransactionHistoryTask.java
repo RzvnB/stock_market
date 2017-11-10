@@ -1,13 +1,16 @@
 import java.util.concurrent.Callable;
 
-
 public class TransactionHistoryTask implements Callable {
 	
-	
-	public TransactionHistoryTask() {}
+	private ResourceDAO resources;
+
+	public TransactionHistoryTask(ResourceDAO resources) {
+		this.resources = resources;
+	}
 
 	@Override
 	public String call() throws Exception {
-		return "TransactionHistory";
+		resources.addTestString();
+		return "DONE";
 	}
 }

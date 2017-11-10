@@ -12,6 +12,8 @@ public class Store {
     private ArrayList<Resource> offers;
     private ArrayList<Resource> demands;
     private ArrayList<Resource> transactions;
+    private ArrayList<String> testStrings;
+    private int counter;
 
     private static final String DEMMAND = "demmand";
     private static final String OFFER = "offer";
@@ -19,10 +21,12 @@ public class Store {
     private String offersLocation, demandsLocation, transactionsLocation;
 
     public Store(String offersLocation, String demandsLocation, String transactionsLocation) {
+        //add to config xml
         this.offersLocation = offersLocation;
         this.demandsLocation = demandsLocation;
         this.transactionsLocation = transactionsLocation;
         this.init();
+        this.counter = 0;
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() { 
                 save();
@@ -37,6 +41,7 @@ public class Store {
         load(offersLocation);
         load(demandsLocation);
         load(transactionsLocation);
+        this.testStrings = new ArrayList<String>();
     }
 
     public void load(String location) {
@@ -80,6 +85,24 @@ public class Store {
             ie.printStackTrace();
             System.exit(-1);
         }
+    }
+
+    public int getCounter() {
+        int x = this.counter;
+        this.counter++;
+        return x;
+    }
+    
+    public String getTestString() {
+        String res = "";
+        for (String s: testStrings) {
+            res += s + "\n";
+        }
+        return res;
+    }
+
+    public void addTestString() {
+        testStrings.add("abcd");
     }
 
     public static void main(String args[]) {
