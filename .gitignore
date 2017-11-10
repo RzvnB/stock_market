@@ -26,3 +26,7 @@ hs_err_pid*
 META-INF/*
 com/*
 .metadata/*
+
+demands.txt
+offers.txt
+transactions.txt
