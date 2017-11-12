@@ -6,13 +6,16 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-
+import java.util.Collections;
+import java.util.List;
 
 public class Store {
-    private ArrayList<Resource> offers;
-    private ArrayList<Resource> demands;
-    private ArrayList<Resource> transactions;
-    private ArrayList<String> testStrings;
+    private List<Resource> offers;
+    private List<Resource> demands;
+    private List<Resource> transactions;
+    private volatile List<Resource> immutableOffers;
+    private volatile List<Resource> immutableDemands;
+    private volatile List<Resource> immutableTransactions;
     private int counter;
 
     private static final String DEMMAND = "demmand";
@@ -27,6 +30,9 @@ public class Store {
         this.transactionsLocation = transactionsLocation;
         this.init();
         this.counter = 0;
+        this.immutableOffers = Collections.unmodifiableList(this.offers);
+        this.immutableDemands = Collections.unmodifiableList(this.demands);
+        this.immutableTransactions = Collections.unmodifiableList(this.transactions);
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() { 
                 save();
@@ -35,13 +41,12 @@ public class Store {
     }
 
     public void init() {
-        offers = new ArrayList<Resource>();
-        demands = new ArrayList<Resource>();
-        transactions = new ArrayList<Resource>();
+        this.offers = Collections.synchronizedList(new ArrayList<Resource>());
+        this.demands = Collections.synchronizedList(new ArrayList<Resource>());
+        this.transactions = Collections.synchronizedList(new ArrayList<Resource>());
         load(offersLocation);
         load(demandsLocation);
         load(transactionsLocation);
-        this.testStrings = new ArrayList<String>();
     }
 
     public void load(String location) {
@@ -74,12 +79,11 @@ public class Store {
         save_resource(transactionsLocation,transactions);         
     }
 
-    public void save_resource(String location,ArrayList<Resource> resource) {
+    public void save_resource(String location, List<Resource> resource) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
             new FileOutputStream(location), "utf-8"))) {
                 for(Resource res : resource) {
                     writer.write(res.toString());
-                    System.out.println(res);
                 }
         } catch(IOException ie) {
             ie.printStackTrace();
@@ -87,27 +91,42 @@ public class Store {
         }
     }
 
-    public int getCounter() {
-        int x = this.counter;
-        this.counter++;
-        return x;
+    public List<Resource> getOffers() {
+        return this.immutableOffers;
+    }
+
+    public List<Resource> getDemands() {
+        return this.immutableDemands;
+    }
+
+    public List<Resource> getTransactions() {
+        return this.immutableTransactions;
     }
     
-    public String getTestString() {
-        String res = "";
-        for (String s: testStrings) {
-            res += s + "\n";
-        }
-        return res;
+    public void removeDemand(Resource demand) {
+        this.demands.remove(demand);
     }
 
-    public void addTestString() {
-        testStrings.add("abcd");
+    public void removeOffer(Resource offer) {
+        this.offers.remove(offer);
     }
 
-    public static void main(String args[]) {
-        Store s = new Store("offers.txt","demands.txt","transactions.txt");
-
+    public void addDemand(Resource demand) {
+        this.demands.add(demand);
     }
-    
+
+    public void addOffer(Resource offer) {
+        this.offers.add(offer);
+    }
+
+    public void addTransaction(Resource transaction) {
+        this.transactions.add(transaction);
+    }
+
+    public synchronized void updateViews() {
+        this.immutableDemands = Collections.unmodifiableList(this.demands);
+        this.immutableOffers = Collections.unmodifiableList(this.offers);
+        this.immutableTransactions = Collections.unmodifiableList(this.transactions);        
+    }
+ 
 }

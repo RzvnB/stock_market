@@ -25,7 +25,7 @@ public class Resource {
         return stockQuantity;
     }
 
-    public String getSpecificInfo() {
+    public String getOwner() {
         return specificInfo;
     }
 
