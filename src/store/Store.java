@@ -1,3 +1,5 @@
+package src.store;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -44,23 +46,23 @@ public class Store {
         this.offers = Collections.synchronizedList(new ArrayList<Resource>());
         this.demands = Collections.synchronizedList(new ArrayList<Resource>());
         this.transactions = Collections.synchronizedList(new ArrayList<Resource>());
-        load(offersLocation);
-        load(demandsLocation);
-        load(transactionsLocation);
+        load(this.offersLocation);
+        load(this.demandsLocation);
+        load(this.transactionsLocation);
     }
 
     public void load(String location) {
-        //parse file for resource
         try (BufferedReader br = new BufferedReader(new FileReader(location))) {
-            String line;
+            String line = null;
             while ((line = br.readLine()) != null) {
                 Resource res = parseString(line);
-                if(res.getResourceType() == DEMMAND)
-                    demands.add(res);
-                else if(res.getResourceType() == OFFER) 
-                    offers.add(res);
-                else 
-                    transactions.add(res);
+                if(location.startsWith("offer")) {
+                    this.offers.add(res);
+                } else if (location.startsWith("demand")) {
+                    this.demands.add(res);
+                } else { 
+                    this.transactions.add(res);
+                }
             }
         } catch(IOException ie) {
             ie.printStackTrace();
@@ -74,16 +76,16 @@ public class Store {
     }
 
     public void save() {
-        save_resource(offersLocation,offers);
-        save_resource(demandsLocation,demands);
-        save_resource(transactionsLocation,transactions);         
+        save_resource(offersLocation, offers);
+        save_resource(demandsLocation, demands);
+        save_resource(transactionsLocation, transactions);         
     }
 
     public void save_resource(String location, List<Resource> resource) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
             new FileOutputStream(location), "utf-8"))) {
                 for(Resource res : resource) {
-                    writer.write(res.toString());
+                    writer.write(res.toString()+"\n");
                 }
         } catch(IOException ie) {
             ie.printStackTrace();
@@ -127,6 +129,14 @@ public class Store {
         this.immutableDemands = Collections.unmodifiableList(this.demands);
         this.immutableOffers = Collections.unmodifiableList(this.offers);
         this.immutableTransactions = Collections.unmodifiableList(this.transactions);        
+    }
+
+    public synchronized void updateDemands() {
+        this.immutableDemands = Collections.unmodifiableList(this.demands);
+    }
+
+    public synchronized void updateOffers() {
+        this.immutableOffers = Collections.unmodifiableList(this.offers);
     }
  
 }

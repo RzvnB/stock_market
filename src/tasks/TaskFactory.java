@@ -1,8 +1,11 @@
+package src.tasks;
+
 import java.util.concurrent.Callable;
+import src.store.ResourceDAO;
 
 public class TaskFactory {
 
-    public static Callable getTask(String task, ResourceDAO resources) {
+    public static Callable<String> getTask(String task, ResourceDAO resources) {
         if (task.equals("getDemands")) {
             return new GetDemandTask(resources);
         }
@@ -16,7 +19,7 @@ public class TaskFactory {
         throw new RuntimeException("Task not found");
     }
 
-    public static Callable getTask(String task, ResourceDAO resources, String param) {
+    public static Callable<String> getTask(String task, ResourceDAO resources, String param) {
         if(task.equals("putOffer")) {
             return new PostOfferTask(resources, param);
         }

@@ -1,6 +1,9 @@
-import java.util.concurrent.Callable;
+package src.tasks;
 
-public class GetDemandTask implements Callable {
+import java.util.concurrent.Callable;
+import src.store.ResourceDAO;
+
+public class GetDemandTask implements Callable<String> {
 
     private ResourceDAO resources;
     

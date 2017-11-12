@@ -1,6 +1,9 @@
-import java.util.concurrent.Callable;
+package src.tasks;
 
-public class PostOfferTask implements Callable {
+import java.util.concurrent.Callable;
+import src.store.ResourceDAO;
+
+public class PostOfferTask implements Callable<String> {
 
     private ResourceDAO resources;
     private String offer;
@@ -12,7 +15,7 @@ public class PostOfferTask implements Callable {
     
         @Override
         public String call() throws Exception {
-            String res = resources.addOffer(offer);
+            resources.addOffer(offer);
             return "DONE";
         }
 }

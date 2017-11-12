@@ -1,18 +1,25 @@
+package src.handlers;
+
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.OutputStream;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import src.store.ResourceDAO;
+import src.tasks.TaskFactory;
+import src.store.Store;
 
 
-public class OfferHandler implements HttpHandler {
+public class TransactionHandler implements HttpHandler {
     private ExecutorService taskQueue;
     private ResourceDAO resources;
-    private TaskFactory taskFactory;
     private final String MESSAGE_404 = "Resource not found";
     private final String MESSAGE_500 = "Execution error";
 
-    public OfferHandler(ExecutorService taskQueue, TaskFactory taskFactory, Store store) {
+    public TransactionHandler(ExecutorService taskQueue, Store store) {
         this.taskQueue = taskQueue;
         this.resources = new ResourceDAO(store);
     }
@@ -20,20 +27,16 @@ public class OfferHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange he) throws IOException {
         OutputStream os = he.getResponseBody();
-        Callable task;
-        String getTaskName;
-        String putTaskName;
-        
+        Callable<String> task;
         
         try {
             if(he.getRequestMethod().equals("GET")) {
-                task = TaskFactory.getTask("getOffers");
-            } else if (he.getRequestMethod().equals("POST")) {
-                task = TaskFactory.getTask("putOffer");
+                task = TaskFactory.getTask("getTransactions", this.resources); 
             } else {
                 he.sendResponseHeaders(404, MESSAGE_404.length());
                 os.write(MESSAGE_404.getBytes());
                 os.close();
+                return;
             }
             Future future = taskQueue.submit(task);
             String result = (String) future.get();

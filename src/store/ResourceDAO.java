@@ -1,3 +1,5 @@
+package src.store;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,26 @@ public class ResourceDAO {
             resources += resource.toString() + "\n";
         }
         return resources;
+    }
+
+    public void addDemand(String demand) {
+        String[] values = demand.split("=");
+        Resource newDemand = new Resource(values[1], Integer.valueOf(values[3]), 
+                                          Integer.valueOf(values[5]), 
+                                          values[7], "demand");
+        System.out.println("Got new demand " + newDemand.toString());
+        store.addDemand(newDemand);
+        store.updateDemands();
+    }
+
+    public void addOffer(String offer) {
+        String[] values = offer.split("=");
+        Resource newOffer = new Resource(values[1], Integer.valueOf(values[3]), 
+                                         Integer.valueOf(values[5]), 
+                                         values[7], "offer");
+        System.out.println("Got new offer " + newOffer.toString());
+        store.addOffer(newOffer);
+        store.updateOffers();
     }
    
     public void updateStore(Resource demand, Resource offer) {

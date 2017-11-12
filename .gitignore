@@ -30,3 +30,4 @@ com/*
 demands.txt
 offers.txt
 transactions.txt
+*.txt

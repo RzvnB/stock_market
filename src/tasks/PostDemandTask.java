@@ -1,6 +1,9 @@
-import java.util.concurrent.Callable;
+package src.tasks;
 
-public class PostDemandTask implements Callable {
+import java.util.concurrent.Callable;
+import src.store.ResourceDAO;
+
+public class PostDemandTask implements Callable<String> {
 
     private ResourceDAO resources;
     private String demand;
@@ -12,7 +15,7 @@ public class PostDemandTask implements Callable {
     
         @Override
         public String call() throws Exception {
-            String res = resources.addDemand(demand);
+            resources.addDemand(demand);
             return "DONE";
         }
 }

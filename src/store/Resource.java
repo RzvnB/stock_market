@@ -1,3 +1,5 @@
+package src.store;
+
 public class Resource {
     private String stockName;
     private int stockValue;
@@ -5,7 +7,7 @@ public class Resource {
     private String specificInfo;
     private String resourceType;
 
-    public Resource(String stockName,int stockValue,int stockQuantity,String specificInfo,String resourceType) {
+    public Resource(String stockName, int stockValue, int stockQuantity, String specificInfo, String resourceType) {
         this.stockName=stockName;
         this.stockValue=stockValue;
         this.stockQuantity=stockQuantity;
