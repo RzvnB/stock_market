@@ -6,16 +6,74 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" stylesheets="/InterfaceStyle.css" fx:id="pane" >
+<AnchorPane fx:controller="InterfaceLoaderFXML" xmlns:fx="http://javafx.com/fxml" stylesheets="/InterfaceStyle.css" fx:id="pane" >
    <children>
-        <HBox fx:id="buttonsBox" spacing="10" >
+    <VBox>
         <padding><Insets top="5" right="5" bottom="5" left="5"/></padding>
-            <Button fx:id="btn" text="Show offers">
-            </Button> 
-            <Button  fx:id="btn" text="Show demands">
-            </Button>
-            <Button  fx:id="btn" text="Show transactions">
-            </Button>
+        <HBox fx:id="buttonsBox" spacing="10" >        
+            <VBox fx:id="vbox">
+                <Button fx:id="btn" text="Show offers">
+                </Button>
+                <ScrollPane>
+                    <TextArea editable="false" fx:id="offerArea">
+                    </TextArea>
+                </ScrollPane>
+            </VBox>
+            <VBox fx:id="vbox">
+                <Button  fx:id="btn" text="Show demands">
+                </Button>
+                <ScrollPane>
+                    <TextArea editable="false" fx:id="demandArea">
+                    </TextArea>
+                </ScrollPane>
+            </VBox>
+            <VBox fx:id="vbox">
+                <Button  fx:id="btn" text="Show transactions">
+                </Button>
+                <ScrollPane> 
+                    <TextArea editable="false" fx:id="transactionArea">
+                    </TextArea>
+                </ScrollPane>
+            </VBox>
         </HBox>
+        <VBox >
+            <padding><Insets top="15"/></padding>
+            <Button fx:id="btn" text="Create offer" onAction="#createOffer">
+            </Button>
+            <HBox fx:id="offerData">
+                <TextField fx:id="offerStockName" promptText="Stock name">
+                    
+                </TextField>
+                <TextField fx:id="offerStocQuantity" promptText="Stock quantity">
+                
+                </TextField>
+                <TextField fx:id="offerStockPrice" promptText="Offer">
+
+                </TextField>
+                <TextField fx:id="offerStockBuyerName" promptText="Name">
+                   
+                </TextField>
+            </HBox>
+        </VBox>
+        <VBox >
+            <padding><Insets top="15"/></padding>
+            <Button fx:id="btn" text="Create demand" onAction="#createDemand">
+            </Button>
+            <HBox fx:id="demandData">
+                <TextField fx:id="soldStockName" promptText="Stock name">
+                    
+                </TextField>
+                <TextField fx:id="soldStockQuantity" promptText="Stock quantity">
+                
+                </TextField>
+                <TextField fx:id="soldStockPrice" promptText="Demanded price">
+
+                </TextField>
+                <TextField fx:id="soldStockOwnerName" promptText="Name">
+                   
+                </TextField>
+            </HBox>
+        </VBox>
+    </VBox>
    </children>
 </AnchorPane>

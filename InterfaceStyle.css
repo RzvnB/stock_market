@@ -30,3 +30,29 @@
 #pane {
     -fx-background: #3E2723;
 }
+
+#offerArea {
+    -fx-pref-width : 220px;
+}
+
+#demandArea {
+    -fx-pref-width : 220px;   
+}
+
+#transactionArea {
+    -fx-pref-width : 220px;
+}
+
+#offerData {
+    -fx-padding : 5 10 10 10;
+    -fx-spacing : 5px;
+}
+
+#vbox {
+    -fx-spacing : 10px;
+}
+
+#demandData {
+    -fx-padding : 5 10 10 10;
+    -fx-spacing : 5px;
+}
