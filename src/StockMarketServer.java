@@ -14,9 +14,9 @@ public class StockMarketServer{
 
     public static void main(String [] args) throws Exception {
         Store store = new Store("offers.txt", "demands.txt", "transactions.txt");
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(20);
         MatchTask matchTask = new MatchTask(store);
-        scheduler.scheduleAtFixedRate(matchTask, 1, 3, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(new MatchTask(store), 1, 50, TimeUnit.MILLISECONDS);
         ExecutorService taskQueue = Executors.newCachedThreadPool();
         int port = 9000;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);

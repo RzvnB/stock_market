@@ -26,6 +26,8 @@ public class MatchTask implements Runnable {
                     offer.getStockName().equals(demand.getStockName()) &&
                     !offer.getOwner().equals(demand.getOwner()) ) {
                         System.out.println(">>> Found match!");
+                        System.out.println(">>> Demand hashcode " + demand.hashCode());
+                        System.out.println(">>> Offer hashcode " + offer.hashCode());
                         this.resources.updateStore(demand, offer);
                         return;
                 }

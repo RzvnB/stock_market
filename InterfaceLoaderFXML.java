@@ -96,7 +96,7 @@ public class InterfaceLoaderFXML extends Application{
         String demand_parameters = "name="+soldStockName.getText() + "\nvalue="+ soldStockPrice.getText() + "\nquantity=" + soldStockQuantity.getText() + "\ninfo=" + soldStockOwnerName.getText();
         client.postRequest(Client.DEMANDS_URL, demand_parameters);
         System.out.println(demand_parameters);
-        clearOfferFields();
+        // clearOfferFields();
     }
 
     public void clearDemandFields() {
@@ -111,6 +111,6 @@ public class InterfaceLoaderFXML extends Application{
         String offer_parameters = "name="+offerStockName.getText() + "\nvalue="+ offerStockPrice.getText() + "\nquantity=" + offerStocQuantity.getText() + "\ninfo=" + offerStockBuyerName.getText();
         client.postRequest(Client.OFFERS_URL, offer_parameters);
         System.out.println(offer_parameters);
-        clearDemandFields();
+        // clearDemandFields();
     }
 }

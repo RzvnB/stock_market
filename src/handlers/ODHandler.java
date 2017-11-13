@@ -18,14 +18,15 @@ import src.store.Store;
 
 public class ODHandler implements HttpHandler {
     private ExecutorService taskQueue;
-    private ResourceDAO resources;
+    private Store store;
     private TaskFactory taskFactory;
     private final String MESSAGE_404 = "Resource not found";
     private final String MESSAGE_500 = "Execution error";
 
     public ODHandler(ExecutorService taskQueue, Store store) {
         this.taskQueue = taskQueue;
-        this.resources = new ResourceDAO(store);
+        this.store = store;
+        // this.resources = new ResourceDAO(store);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class ODHandler implements HttpHandler {
         Callable<String> task;
         String getTaskName;
         String putTaskName;
-        System.out.println("ODHandler handling stuff");
+        // System.out.println("ODHandler handling stuff");
 
         if (he.getHttpContext().getPath().equals("/demand")) {
             getTaskName = "getDemands";
@@ -46,16 +47,16 @@ public class ODHandler implements HttpHandler {
 
         try {
             if(he.getRequestMethod().equals("GET")) {
-                task = TaskFactory.getTask(getTaskName, this.resources);
+                task = TaskFactory.getTask(getTaskName, new ResourceDAO(this.store));
             } else if (he.getRequestMethod().equals("POST")) {
                 String param = "";
                 String str = null;
                 BufferedReader reader = new BufferedReader(new InputStreamReader(he.getRequestBody()));
                 while ((str = reader.readLine()) != null) {
-                    System.out.println(str);
+                    // System.out.println(str);
                     param += str + "=";
                 }
-                task = TaskFactory.getTask(putTaskName, this.resources, param);
+                task = TaskFactory.getTask(putTaskName, new ResourceDAO(this.store), param);
             } else {
                 he.sendResponseHeaders(404, MESSAGE_404.length());
                 os.write(MESSAGE_404.getBytes());

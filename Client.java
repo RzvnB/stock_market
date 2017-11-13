@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.DataOutputStream;
 
 public class Client {
-	public static final String IP = "http://192.168.0.102:9000";
+	public static final String IP = "http://localhost:9000";
 	public static final String DEMANDS_URL = IP+"/demand";
 	public static final String TRANSACTIONS_URL = IP+"/transactions";
 	public static final String OFFERS_URL = IP+"/offer";

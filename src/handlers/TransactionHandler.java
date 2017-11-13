@@ -15,13 +15,13 @@ import src.store.Store;
 
 public class TransactionHandler implements HttpHandler {
     private ExecutorService taskQueue;
-    private ResourceDAO resources;
+    private Store store;
     private final String MESSAGE_404 = "Resource not found";
     private final String MESSAGE_500 = "Execution error";
 
     public TransactionHandler(ExecutorService taskQueue, Store store) {
         this.taskQueue = taskQueue;
-        this.resources = new ResourceDAO(store);
+        this.store = store;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class TransactionHandler implements HttpHandler {
         
         try {
             if(he.getRequestMethod().equals("GET")) {
-                task = TaskFactory.getTask("getTransactions", this.resources); 
+                task = TaskFactory.getTask("getTransactions", new ResourceDAO(this.store)); 
             } else {
                 he.sendResponseHeaders(404, MESSAGE_404.length());
                 os.write(MESSAGE_404.getBytes());

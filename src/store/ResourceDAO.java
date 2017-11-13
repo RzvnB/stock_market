@@ -39,7 +39,7 @@ public class ResourceDAO {
         Resource newDemand = new Resource(values[1], Integer.valueOf(values[3]), 
                                           Integer.valueOf(values[5]), 
                                           values[7], "demand");
-        System.out.println("Got new demand " + newDemand.toString());
+        // System.out.println("Got new demand " + newDemand.toString());
         store.addDemand(newDemand);
         store.updateDemands();
     }
@@ -49,7 +49,7 @@ public class ResourceDAO {
         Resource newOffer = new Resource(values[1], Integer.valueOf(values[3]), 
                                          Integer.valueOf(values[5]), 
                                          values[7], "offer");
-        System.out.println("Got new offer " + newOffer.toString());
+        // System.out.println("Got new offer " + newOffer.toString());
         store.addOffer(newOffer);
         store.updateOffers();
     }
@@ -78,7 +78,7 @@ public class ResourceDAO {
             store.removeDemand(demand);
             store.addOffer(newOffer);
         }
-        Resource transaction = new Resource(demand.getStockName(), demand.getStockValue(), transactionQuantity, demand.getOwner() + ":" + offer.getOwner(), "transaction");
+        Resource transaction = new Resource(demand.getStockName(), demand.getStockValue(), transactionQuantity, demand.getOwner() + ":" + offer.getOwner(), "" + demand.hashCode() + "::" + offer.hashCode());
         store.addTransaction(transaction);
         store.updateViews();
     } 

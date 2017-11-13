@@ -10,11 +10,12 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Store {
-    private List<Resource> offers;
-    private List<Resource> demands;
-    private List<Resource> transactions;
+    private volatile List<Resource> offers;
+    private volatile List<Resource> demands;
+    private volatile List<Resource> transactions;
     private volatile List<Resource> immutableOffers;
     private volatile List<Resource> immutableDemands;
     private volatile List<Resource> immutableTransactions;
@@ -43,9 +44,9 @@ public class Store {
     }
 
     public void init() {
-        this.offers = Collections.synchronizedList(new ArrayList<Resource>());
-        this.demands = Collections.synchronizedList(new ArrayList<Resource>());
-        this.transactions = Collections.synchronizedList(new ArrayList<Resource>());
+        this.offers = new CopyOnWriteArrayList<Resource>(new ArrayList<Resource>());
+        this.demands = new CopyOnWriteArrayList<Resource>(new ArrayList<Resource>());
+        this.transactions = new CopyOnWriteArrayList<Resource>(new ArrayList<Resource>());
         load(this.offersLocation);
         load(this.demandsLocation);
         load(this.transactionsLocation);
@@ -75,7 +76,7 @@ public class Store {
         return new Resource(values[0],Integer.valueOf(values[1]),Integer.valueOf(values[2]),values[3],values[4]);
     }
 
-    public void save() {
+    public synchronized void save() {
         save_resource(offersLocation, offers);
         save_resource(demandsLocation, demands);
         save_resource(transactionsLocation, transactions);         

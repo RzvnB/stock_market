@@ -41,14 +41,14 @@
             <Button fx:id="btn" text="Create offer" onAction="#createOffer">
             </Button>
             <HBox fx:id="offerData">
-                <TextField fx:id="offerStockName" promptText="Stock name">
+                <TextField fx:id="offerStockName" promptText="Stock Name">
                     
                 </TextField>
                 
-                <TextField fx:id="offerStockPrice" promptText="Offer">
+                <TextField fx:id="offerStockPrice" promptText="Stock Value">
 
                 </TextField>
-                <TextField fx:id="offerStocQuantity" promptText="Stock quantity">
+                <TextField fx:id="offerStocQuantity" promptText="Stock Quantity">
                 
                 </TextField>
                 <TextField fx:id="offerStockBuyerName" promptText="Name">
@@ -61,11 +61,11 @@
             <Button fx:id="btn" text="Create demand" onAction="#createDemand">
             </Button>
             <HBox fx:id="demandData">
-                <TextField fx:id="soldStockName" promptText="Stock name">
+                <TextField fx:id="soldStockName" promptText="Stock Name">
                     
                 </TextField>
                 
-                <TextField fx:id="soldStockPrice" promptText="Demanded price">
+                <TextField fx:id="soldStockPrice" promptText="Stock Value">
 
                 </TextField>
                 <TextField fx:id="soldStockQuantity" promptText="Stock quantity">
